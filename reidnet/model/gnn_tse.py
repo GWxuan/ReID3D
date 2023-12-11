@@ -6,7 +6,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from model.tse_30 import TSE
+from model.tse import TSE
 
 
 def knn(x, k):

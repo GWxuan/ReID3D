@@ -3,8 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 import model
-from model.gnn_tse_30 import Net
-from model.fusion_trans_gnn import Fusion
+from model.gnn_tse import Net
+from model.fusion_trans import Fusion
 import parser
 args = parser.parse_args()
 import numpy as np
