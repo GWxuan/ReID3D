@@ -16,7 +16,9 @@ Camera-based person re-identification (ReID) systems have been widely applied in
 
 ## Method
 Pre-training:
+
 <img src="./fig/method1.jpg" width = 60%>
 
 ReID network:
+
 <img src="./fig/method2.jpg" width = 60%><img src="./fig/method3.jpg" width = 30%>
