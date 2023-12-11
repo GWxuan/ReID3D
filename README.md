@@ -22,3 +22,31 @@ Pre-training:
 ReID network:
 
 <img src="./fig/method2.jpg" width = 60%>      <img src="./fig/method3.jpg" width = 30%>
+
+## Getting Started
+Installation:
+```
+pip install -r requirements.txt
+```
+Prepare LReID:
+```
+bash run.sh
+```
+Training:
+```
+cd reidnewt
+bash train.sh
+```
+## Citation
+
+If you find this project helpful, please consider citing the following paper:
+```
+@misc{guo2023lidarbased,
+      title={LiDAR-based Person Re-identification}, 
+      author={Wenxuan Guo and Zhiyu Pan and Yingping Liang and Ziheng Xi and Zhi Chen Zhong and Jianjiang Feng and Jie Zhou},
+      year={2023},
+      eprint={2312.03033},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
