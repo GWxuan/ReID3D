@@ -21,4 +21,4 @@ Pre-training:
 
 ReID network:
 
-<img src="./fig/method2.jpg" width = 60%>   <img src="./fig/method3.jpg" width = 30%>
+<img src="./fig/method2.jpg" width = 60%>  |  <img src="./fig/method3.jpg" width = 30%>
