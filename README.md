@@ -41,12 +41,10 @@ bash train.sh
 
 If you find this project helpful, please consider citing the following paper:
 ```
-@misc{guo2023lidarbased,
+@article{guo2023lidarbased,
       title={LiDAR-based Person Re-identification}, 
       author={Wenxuan Guo and Zhiyu Pan and Yingping Liang and Ziheng Xi and Zhi Chen Zhong and Jianjiang Feng and Jie Zhou},
-      year={2023},
-      eprint={2312.03033},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+      journal={arXiv preprint arXiv:2308.00628},
+      year={2023}
 }
 ```
