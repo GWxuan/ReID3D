@@ -1,6 +1,9 @@
 # LiDAR-based Person Re-identification
 Code for LiDAR-based Person Re-identification. The dataset LReID will be released soon.
 
+## News! 📰
+- [2024.01] Paper accepted by **CVPR'24** (444)!
+
 ### [Paper](https://arxiv.org/abs/2312.03033) | [Project Page](https://github.com/GWxuan/ReID3D)
 
 ## Introduction
