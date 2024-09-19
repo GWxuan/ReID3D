@@ -38,7 +38,7 @@ bash run.sh
 ```
 Training:
 ```
-cd reidnewt
+cd reidnet
 bash train.sh
 ```
 ## Citation
