@@ -1,4 +1,4 @@
 python database/create_reid_database.py \
-    --data_dir '/home/guowenxuan/guowx/reid3d/database/lreid/' \
-    --info_dir '/home/guowenxuan/guowx/reid3d/database/lreid/info/' \
-    --output_dir '/home/guowenxuan/guowx/reid3d/database/lreid/outputs'
+    --data_dir '~/ReID3D/database/LReID_final/' \
+    --info_dir '~/ReID3D/database/LReID_final/info/' \
+    --output_dir '~/ReID3D/database/LReID_final/outputs'

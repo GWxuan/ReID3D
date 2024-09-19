@@ -1,7 +1,7 @@
 import argparse
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Train Video-based Re-ID',
+    parser = argparse.ArgumentParser(description='Train LiDAR-based Re-ID',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
     parser.add_argument('--log_path', type=str, default='loss.txt')

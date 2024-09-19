@@ -76,7 +76,7 @@ def Video_acc(features, ids, q_idx):
         
     print('acc: ', acc_right/len(q_idx), acc_right3/len(q_idx), ap/len(q_idx), acc_right, len(q_idx))
     return acc_right/len(q_idx), acc_right3/len(q_idx),  ap/len(q_idx), acc_right, len(q_idx)    
-        
+      
 def test_rrs(net, dataloader, args):
 
     net.eval()
@@ -90,7 +90,6 @@ def test_rrs(net, dataloader, args):
     with torch.no_grad():
         for c, data in enumerate(dataloader):
             seqs = data[0].cuda()
-            # import pdb;pdb.set_trace()
             seqs = seqs.reshape((seqs.shape[0]//args.seq_len, args.seq_len, ) + seqs.shape[1:])
             label = data[1]
             cams = data[2]
@@ -101,7 +100,6 @@ def test_rrs(net, dataloader, args):
             gallery_cams.append(cams)
             pbar.update(1)
     pbar.close()
-    # import pdb;pdb.set_trace()
     gallery_features = torch.cat(gallery_features, dim=0).numpy()
     gallery_labels = torch.cat(gallery_labels, dim=0).numpy()
     gallery_cams = torch.cat(gallery_cams, dim=0).numpy()
@@ -131,7 +129,7 @@ if __name__ == '__main__':
 
     num_class = train_dataloader.dataset.n_id
     net = nn.DataParallel(
-        network.STMN(args.feat_dim, num_class=num_class, stride=args.stride).cuda())
+        network.reid3d(args.feat_dim, num_class=num_class, stride=args.stride).cuda())
 
     if args.load_ckpt is not None:
         state = torch.load(args.load_ckpt)
@@ -145,24 +143,11 @@ if __name__ == '__main__':
         optimizer = optim.SGD(net.parameters(), lr = args.lr, momentum=0.9, weight_decay = 1e-4)
     else:
         optimizer = optim.AdamW(net.parameters(), lr = args.lr, betas=(0.9,0.99), weight_decay = 1e-5)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=100, eta_min=args.lr*0.05, last_epoch=-1, verbose=False)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=150, eta_min=args.lr*0.01, last_epoch=-1, verbose=False)
 
     best_cmc = 0
     loss = loss.Loss().cuda()
-    for epoch in range(0, args.n_epochs+1):
-
-        ############################### Validation ###############################
-        if (epoch+1) % args.eval_freq == 0:
-            acc, acc3, map, num_right, num_all = test_rrs(net, test_rrs_dataloader, args)
-
-            f = open(os.path.join(args.ckpt, args.log_path), 'a')
-            f.write('[Epoch %03d] top1: %.1f top3: %.1f map: %.1f num_right: %d num_all: %d \n'%(epoch, acc*100, acc3*100, map*100, num_right, num_all))
-
-            if acc >= best_cmc:
-                torch.save(net.state_dict(), os.path.join(args.ckpt, 'ckpt_best.pth'))
-                best_cmc = acc
-
-            f.close()
+    for epoch in range(0, args.n_epochs):
 
         ############################### Training ###############################
         pbar = tqdm(total=len(train_dataloader), ncols=100, leave=True)
@@ -207,7 +192,30 @@ if __name__ == '__main__':
         f.write('lr: %f total loss: %.4f track_id loss: %.4f trip loss: %.4f track_id fianl: %.4f trip final: %.4f \n'%
                 (optimizer.state_dict()['param_groups'][0]['lr'], loss_all, loss_id, loss_trip, loss_id_final, loss_trip_final))
         f.close()
+
+        ############################### Validation ###############################
+        if (epoch+1) % args.eval_freq == 0:
+            acc, acc3, map, num_right, num_all = test_rrs(net, test_rrs_dataloader, args)
+
+            f = open(os.path.join(args.ckpt, args.log_path), 'a')
+            f.write('[Epoch %03d] top1: %.1f top3: %.1f map: %.1f num_right: %d num_all: %d \n'%(epoch, acc*100, acc3*100, map*100, num_right, num_all))
+
+            if acc >= best_cmc:
+                torch.save(net.state_dict(), os.path.join(args.ckpt, 'ckpt_best.pth'))
+                best_cmc = acc
+
+            f.close()
+
     print('best_acc: ', best_cmc)
     f = open(os.path.join(args.ckpt, args.log_path), 'a')
     f.write('best acc: %.1f \n'%(best_cmc*100))
+    f.close()
+
+
+############################### Test ###############################
+    print('----Test---- \n')
+    acc, acc3, map, num_right, num_all = test_rrs(net, test_rrs_dataloader, args)
+
+    f = open(os.path.join(args.ckpt, args.log_path), 'a')
+    f.write('[Test] top1: %.1f top3: %.1f map: %.1f num_right: %d num_all: %d \n'%(acc*100, acc3*100, map*100, num_right, num_all))
     f.close()

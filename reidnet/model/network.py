@@ -10,9 +10,9 @@ args = parser.parse_args()
 import numpy as np
 import os
 
-class STMN(nn.Module):
+class reid3d(nn.Module):
     def __init__(self, feat_dim=1024, num_class=512, stride=1):
-        super(STMN, self).__init__()
+        super(reid3d, self).__init__()
         self.features_pc = Net(k=10, emb_dims=512, output_channels=feat_dim)
         self.bn_s = nn.BatchNorm1d(feat_dim)
         self.bn_s.bias.requires_grad_(False)
